@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE suppressions PUBLIC
+        "-//Checkstyle//DTD SuppressionFilter Configuration 1.2//EN"
+        "https://checkstyle.org/dtds/suppressions_1_2.dtd">
+
+<suppressions>
+    <!-- can't split long messages between lines -->
+<!--    <suppress id="lineLengthXml" files="google_checks\.xml" lines="56,126"/>-->
+<!--    &lt;!&ndash; don't validate generated files &ndash;&gt;-->
+<!--    <suppress id="lineLengthXml" files="releasenotes\.xml"/>-->
+<!--    <suppress id="lineLengthXml" files="releasenotes_old_6\-0_7\-8\.xml"/>-->
+<!--    <suppress id="lineLengthXml" files="releasenotes_old_1\-0_5\-9\.xml"/>-->
+<!--    <suppress id="lineLengthXml" files="[\\/]meta[\\/]"/>-->
+</suppressions>

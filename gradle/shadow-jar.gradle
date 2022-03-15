@@ -1,0 +1,10 @@
+apply plugin: 'com.github.johnrengelman.shadow'
+
+shadowJar {
+    archiveBaseName.set("library-${version}")
+    archiveClassifier.set('')
+    archiveVersion.set('')
+    manifest {
+        attributes 'Main-Class': 'org.junit.platform.console.ConsoleLauncher'
+    }
+}

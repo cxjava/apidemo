@@ -1,0 +1,13 @@
+apply plugin: "org.sonarqube"
+
+sonarqube {
+    properties {
+        property 'sonar.projectName', "apidemo"
+        property 'sonar.coverage.exclusions', "${project.jacocoExcludes.join(', ')}"
+        property 'sonar.exclusions', "${project.jacocoExcludes.join(', ')}"
+        property 'sonar.java.source', "11"
+        property 'sonar.coverage.jacoco.xmlReportPaths', "${projectDir}/application/build/reports/jacoco.xml"
+        property 'sonar.dependencyCheck.reportPath', "${projectDir}/application/build/reports/dependencycheck/dependency-check-report.xml"
+        property 'sonar.dependencyCheck.htmlReportPath', "${projectDir}/application/build/reports/dependencycheck/dependency-check-report.html"
+    }
+}

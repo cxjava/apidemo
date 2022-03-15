@@ -1,0 +1,19 @@
+if (System.getenv().containsKey('MAVEN_USERNAME')) {
+    repositories {
+        for (repo in ['maven-central', 'maven-flcit', 'maven-hosted', 'gradle-plugins']) {
+            maven {
+                credentials {
+                    username NEXUS_USERNAME
+                    password NEXUS_PASSWORD
+                }
+                url "https://xxxxx/repository/${repo}/"
+            }
+        }
+    }
+} else {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}

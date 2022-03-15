@@ -1,0 +1,8 @@
+#!/bin/sh
+
+echo "Running git pre-commit hook"
+
+./gradlew clean spotlessApply
+
+RESULT=$?
+exit $RESULT

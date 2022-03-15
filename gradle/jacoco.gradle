@@ -1,0 +1,116 @@
+apply plugin: 'jacoco'
+
+project.ext.jacocoExcludes = [
+        "**/kafka/*",
+        "**/config/*",
+        "**/security/**",
+        "**/configuration/**",
+        "**/dto/**",
+        "**/*test*/**",
+        "**/*Test*/**",
+        "**/exception/**",
+        "**/*Configuration**"
+]
+
+if (!project.ext.hasProperty("excludedClassesCoverage")) {
+    project.ext.excludedClassesCoverage = project.jacocoExcludes
+}
+
+if (!project.ext.hasProperty("excludedClassesBranchCoverage")) {
+    project.ext.excludedClassesBranchCoverage = ["**/ExampleConfiguration*"]
+}
+
+if (!project.ext.hasProperty("excludedClassesInstructionCoverage")) {
+    project.ext.excludedClassesInstructionCoverage = ["**/RestExceptionHandler*"]
+}
+
+// defaults can be overridden per project:
+project.ext.minimumBranchCoverage = 0.9
+project.ext.minimumInstructionCoverage = 0.9
+
+jacoco {
+    // https://github.com/jacoco/jacoco/releases
+    toolVersion('0.8.7')
+}
+
+jacocoTestReport {
+    shouldRunAfter test
+    afterEvaluate {
+        classDirectories.from = files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: project.excludedClassesCoverage)
+        })
+    }
+}
+
+//Integration
+//test===========================
+//Integration
+//test report
+task jacocoIntegrationTestReport(type: JacocoReport) {
+    shouldRunAfter integrationTest
+    sourceSets sourceSets.main
+    executionData integrationTest
+    afterEvaluate {
+        classDirectories.from = files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: project.excludedClassesCoverage)
+        })
+    }
+}
+
+//All test===========================
+//Unit test and component test and API test coverage all together
+task jacocoAllTestReport(type: JacocoReport) {
+    sourceSets sourceSets.main
+    executionData test, integrationTest
+    afterEvaluate {
+        classDirectories.from = files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: project.excludedClassesCoverage)
+        })
+    }
+}
+
+//All test code coverage together
+task jacocoAllTestCoverageVerification(type: JacocoCoverageVerification) {
+    executionData test, integrationTest
+    sourceDirectories.from = files(sourceSets.main.allSource.srcDirs)
+    classDirectories.from = files(sourceSets.main.output)
+
+    afterEvaluate {
+        classDirectories.from = files(classDirectories.files.collect {
+            fileTree(dir: it, excludes: project.excludedClassesInstructionCoverage +
+                    project.excludedClassesBranchCoverage +
+                    project.excludedClassesCoverage)
+        })
+    }
+
+    violationRules {
+        rule {
+            element = 'CLASS'
+            excludes = project.excludedClassesBranchCoverage + project.excludedClassesCoverage
+            limit {
+                counter = 'BRANCH'
+                minimum = project.minimumBranchCoverage
+            }
+        }
+
+        rule {
+            element = 'CLASS'
+            excludes = project.excludedClassesInstructionCoverage + project.excludedClassesCoverage
+            limit {
+                counter = 'INSTRUCTION'
+                minimum = project.minimumInstructionCoverage
+            }
+        }
+    }
+    onlyIf { !project.rootProject.hasProperty("skipTests") }
+}
+
+check.dependsOn jacocoAllTestCoverageVerification
+
+jacocoAllTestCoverageVerification.dependsOn jacocoTestReport
+jacocoAllTestCoverageVerification.dependsOn jacocoIntegrationTestReport
+jacocoAllTestCoverageVerification.dependsOn jacocoAllTestReport
+
+tasks.matching { it.name.startsWith("sonarqube") }.each { sonarqubeTask ->
+    sonarqubeTask.dependsOn jacocoAllTestCoverageVerification
+}

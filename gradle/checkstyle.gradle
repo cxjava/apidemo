@@ -1,0 +1,23 @@
+apply plugin: 'checkstyle'
+
+checkstyle {
+    configFile = rootProject.resources.text.fromFile("${rootDir}/config/checkstyle/google_checks.xml").asFile()
+    showViolations = true
+    ignoreFailures = false
+    maxWarnings = 0
+    maxErrors = 0
+    // https://github.com/checkstyle/checkstyle/releases/
+    toolVersion('10.0')
+}
+
+tasks.withType(Checkstyle) {
+    reports {
+        xml.enabled false
+        html.enabled true
+    }
+    exclude '**/spike/**'
+}
+
+tasks.matching { it.name.startsWith("checkstyle") }.each { checkstyleTask ->
+    test.shouldRunAfter(checkstyleTask)
+}

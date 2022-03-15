@@ -1,0 +1,34 @@
+apply plugin: 'com.diffplug.spotless'
+
+spotless {
+    if (project != rootProject) {
+        groovy {
+            importOrder()
+            greclipse('4.21.0')
+            trimTrailingWhitespace()
+            indentWithSpaces()
+            endWithNewline()
+        }
+        java {
+            palantirJavaFormat('2.17.0')
+            removeUnusedImports()
+            trimTrailingWhitespace()
+            indentWithSpaces()
+            endWithNewline()
+        }
+    }
+    groovyGradle {
+        greclipse()
+    }
+    format 'misc', {
+        target '**/*.gradle', '**/*.md', '**/.gitignore', '**/*.yml', '**/*.yaml'
+        trimTrailingWhitespace()
+        indentWithSpaces()
+        endWithNewline()
+    }
+    format 'xml', {
+        target '**/*.xml'
+    }
+}
+
+compileJava.dependsOn spotlessApply

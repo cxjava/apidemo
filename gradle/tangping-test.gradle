@@ -1,0 +1,27 @@
+sourceSets {
+    tangpingTest {
+        java.srcDir file('src/tangping-test/java')
+        groovy.srcDir file('src/tangping-test/groovy')
+        resources.srcDir file('src/tangping-test/resources')
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
+    }
+}
+
+configurations {
+    tangpingTestImplementation.extendsFrom testImplementation
+    tangpingTestRuntimeOnly.extendsFrom testRuntimeOnly
+}
+
+task tangpingTest(type: Test) {
+    description 'Run the tangping tests'
+    group = 'tests'
+
+    testClassesDirs = sourceSets.tangpingTest.output.classesDirs
+    classpath = sourceSets.tangpingTest.runtimeClasspath
+
+    useJUnitPlatform()
+}
+
+check.dependsOn tangpingTest
+tangpingTest.mustRunAfter test

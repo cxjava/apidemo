@@ -1,0 +1,9 @@
+apply plugin: 'com.google.cloud.tools.jib'
+apply plugin: 'com.ryandens.javaagent-jib'
+
+jib {
+    container {
+        jvmFlags = ["-Xmx1024m", "-XX:MaxMetaspaceSize=256m"]
+        ports = ['8080']
+    }
+}

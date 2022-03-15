@@ -1,0 +1,20 @@
+apply plugin: 'com.github.spotbugs'
+
+tasks.matching { it.name.startsWith("spotbugs") }.each { spotbugsTask ->
+    spotbugsTask.configure {
+        reports.configure {
+            xml.enabled = false
+            html.enabled = true
+        }
+    }
+}
+
+spotbugs {
+    ignoreFailures.set(false)
+    excludeFilter = file("${rootProject.projectDir}/config/spotbugs/excludeFilter.xml")
+    reportLevel = "high"
+}
+
+tasks.matching { it.name.startsWith("spotbugs") }.each { spotbugsTask ->
+    test.shouldRunAfter(spotbugsTask)
+}

@@ -1,0 +1,44 @@
+plugins {
+    id 'com.github.ben-manes.versions' version '0.42.0'
+    id 'com.google.cloud.tools.jib' version '3.2.0' apply false
+    id 'com.ryandens.javaagent-jib' version '0.2.2' apply false
+    id 'com.adarshr.test-logger' version '3.2.0' apply false
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE' apply false
+    id 'com.github.johnrengelman.shadow' version "7.1.2" apply false
+    id 'org.springframework.boot' version '2.6.4' apply false
+    id 'org.owasp.dependencycheck' version '7.0.0' apply false
+    id 'com.diffplug.spotless' version '6.3.0' apply false
+    id 'com.github.spotbugs' version '5.0.6' apply false
+    id 'org.sonarqube' version '3.3' apply false
+    id 'groovy'
+    id 'java'
+    id 'idea'
+}
+
+apply from: "gradle/git-hooks/git-hooks.gradle"
+apply from: "gradle/repositories.gradle"
+apply from: "gradle/dependency-resolve.gradle"
+apply from: "gradle/spotless.gradle"
+
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'groovy'
+    apply plugin: 'io.spring.dependency-management'
+
+    group 'com.example.apidemo'
+    version '0.0.1'
+
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
+subprojects {
+    apply from: "../gradle/repositories.gradle"
+    apply from: "../gradle/dependency-resolve.gradle"
+    apply from: "../gradle/spotless.gradle"
+    apply from: "../gradle/checkstyle.gradle"
+    apply from: "../gradle/pmd.gradle"
+    apply from: "../gradle/spotbugs.gradle"
+    apply from: "../gradle/dependencyCheck.gradle"
+}

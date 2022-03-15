@@ -1,0 +1,3 @@
+rootProject.name = 'apidemo'
+include 'library'
+include 'application'

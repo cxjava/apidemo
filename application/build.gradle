@@ -1,0 +1,21 @@
+apply plugin: 'com.adarshr.test-logger'
+apply plugin: 'org.springframework.boot'
+
+apply from: "../gradle/integration-test.gradle"
+apply from: "../gradle/tangping-test.gradle"
+apply from: "../gradle/jib.gradle"
+apply from: "../gradle/test-dependencies.gradle"
+apply from: "../gradle/sonar.gradle"
+apply from: "../gradle/jacoco.gradle"
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    implementation 'com.datadoghq:dd-trace-api:0.96.0'
+    javaagent('com.datadoghq:dd-java-agent:0.96.0')
+}

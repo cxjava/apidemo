@@ -1,0 +1,16 @@
+apply from: "../gradle/shadow-jar.gradle"
+
+dependencyManagement {
+    imports {
+        mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
+    }
+}
+
+dependencies {
+    implementation 'org.junit.jupiter:junit-jupiter-engine'
+    implementation 'org.junit.jupiter:junit-jupiter-api'
+    implementation 'org.junit.platform:junit-platform-console'
+    implementation 'io.rest-assured:rest-assured'
+    implementation 'junit:junit'
+    implementation 'commons-logging:commons-logging:1.2'
+}

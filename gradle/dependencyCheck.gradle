@@ -1,0 +1,31 @@
+apply plugin: 'org.owasp.dependencycheck'
+
+dependencyCheck {
+    failBuildOnCVSS = 0
+    format = 'ALL'
+    suppressionFile = "${rootDir}/config/dependencyCheck/suppressions.xml"
+    outputDirectory = file("${buildDir}/reports/dependencycheck")
+    analyzers {
+        assemblyEnabled= false
+        ossIndex {
+            enabled = false
+        }
+    }
+    if (System.properties.containsKey('dev')) {
+        cve {
+            urlBase = 'http://your-server:8080/nvdcve-1.1-%d.json.gz'
+            urlModified = 'http://your-server:8080/nvdcve-1.1-modified.json.gz'
+        }
+    } else {
+        cve {
+            urlBase = 'http://localhost:8282/nvdcve-1.1-%d.json.gz'
+            urlModified = 'http://localhost:8282/nvdcve-1.1-modified.json.gz'
+        }
+    }
+    retirejs {
+        retireJsUrl = "https://ghproxy.com/https://raw.githubusercontent.com/Retirejs/retire.js/master/repository/jsrepository.json"
+    }
+}
+
+check.dependsOn dependencyCheckAnalyze
+dependencyCheckAnalyze.shouldRunAfter(test)

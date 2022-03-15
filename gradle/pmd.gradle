@@ -1,0 +1,22 @@
+apply plugin: 'pmd'
+
+pmd {
+    consoleOutput = true
+    ignoreFailures = false
+    // https://pmd.github.io/#downloads
+    toolVersion('6.43.0')
+}
+
+pmdMain {
+    ruleSetFiles = files("${rootProject.projectDir}/config/pmd/pmd-settings.xml")
+    ruleSets = []
+}
+
+pmdTest {
+    ruleSetFiles = files("${rootProject.projectDir}/config/pmd/pmd-settings-test.xml")
+    ruleSets = []
+}
+
+tasks.matching { it.name.startsWith("pmd") }.each { pmdTask ->
+    test.shouldRunAfter(pmdTask)
+}
