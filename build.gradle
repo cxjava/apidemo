@@ -34,7 +34,7 @@ allprojects {
 }
 
 subprojects {
-    apply from: "../gradle/repositories.gradle"
+    apply from: rootProject.file('gradle/repositories.gradle')
     apply from: "../gradle/dependency-resolve.gradle"
     apply from: "../gradle/spotless.gradle"
     apply from: "../gradle/checkstyle.gradle"
