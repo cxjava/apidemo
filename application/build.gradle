@@ -17,5 +17,5 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
 
     implementation 'com.datadoghq:dd-trace-api:0.105.0'
-    javaagent('com.datadoghq:dd-java-agent:0.105.0')
+    javaagent('com.datadoghq:dd-java-agent:0.107.0')
 }
