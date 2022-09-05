@@ -8,7 +8,7 @@ plugins {
     id 'org.springframework.boot' version '2.7.3' apply false
     id 'org.owasp.dependencycheck' version '7.1.2' apply false
     id 'com.diffplug.spotless' version '6.10.0' apply false
-    id 'com.github.spotbugs' version '5.0.10' apply false
+    id 'com.github.spotbugs' version '5.0.11' apply false
     id 'org.sonarqube' version '3.4.0.2513' apply false
     id 'groovy'
     id 'java'
