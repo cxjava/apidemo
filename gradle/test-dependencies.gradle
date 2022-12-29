@@ -6,7 +6,7 @@ dependencies {
         exclude group: 'junit', module: 'junit'
     }
     testImplementation 'org.codehaus.groovy:groovy:3.0.13'
-    testImplementation 'org.spockframework:spock-core:2.1-groovy-3.0'
+    testImplementation 'org.spockframework:spock-core:2.3-groovy-4.0'
     testImplementation 'org.spockframework:spock-spring:2.1-groovy-3.0'
 }
 
